@@ -10,7 +10,7 @@ export default function TimelineEvent({ event: { name, color, description } }) {
       }}
       className={styles.box}
     >
-      <p>{name}</p>
+      <p className="text-white">{name}</p>
       <p>{description}</p>
     </div>
   );
