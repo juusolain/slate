@@ -1,17 +1,28 @@
 import React from "react";
 
-import styles from "./event.module.css"; // Import css modules stylesheet as styles
-
-export default function TimelineEvent({ event: { name, color, description } }) {
+export default function TimelineEvent({ event: { name, color, description, duration, startTime }, timelineWidth, timelineStart }) {
   return (
-    <div
-      style={{
-        backgroundColor: color,
-      }}
-      className={styles.box}
-    >
-      <p className="text-white">{name}</p>
-      <p>{description}</p>
+    <div className="absolute float-left h-full" style={{
+      width: getWidth(duration, timelineWidth),
+      left: getLeft(startTime, timelineWidth, timelineStart)
+    }}>
+      <div
+        className="p-2 h-full border rounded border-transparent whitespace-nowrap overflow-hidden overflow-ellipsis" style={{
+          backgroundColor: color
+        }}
+      >
+        <p className="text-white text-lg m-0">{name}</p>
+        <p className="text-gray-400 m-0">{description}</p>
+      </div>
     </div>
+
   );
+}
+
+function getWidth(duration, timelineWidth){
+  return (duration/timelineWidth)*100+"%"
+}
+
+function getLeft(startTime, timelineWidth, timelineStart){
+  return (startTime-timelineStart)/timelineWidth*100+"%"
 }

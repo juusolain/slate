@@ -14,5 +14,7 @@ Default.args = {
     name: "TestEvent",
     description: "This is a test description",
     color: "blue", // a css color
+    duration: 100,
+    startTime: 10
   },
 };
