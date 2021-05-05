@@ -42,6 +42,7 @@ function shoudBeVisible(startTime, duration, timelineStart, timelineWidth) {
   const timelineEnd = timelineStart + timelineWidth;
   return (
     (startTime >= timelineStart && startTime <= timelineEnd) ||
-    (end <= timelineEnd && end >= timelineStart)
+    (end <= timelineEnd && end >= timelineStart) ||
+    (end >= timelineEnd && startTime <= timelineStart)
   );
 }
