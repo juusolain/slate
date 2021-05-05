@@ -21,7 +21,7 @@ export default function TimelineEvent({
           }}
         >
           <p className="text-white text-lg m-0">{name}</p>
-          <p className="text-gray-400 m-0">{description}</p>
+          <p className="text-gray-200 m-0">{description}</p>
         </div>
       </div>
     );

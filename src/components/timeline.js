@@ -19,11 +19,14 @@ export default function Timeline({ events, ...props }) {
   });
 
   const onWheelHandler = (e) => {
-    const zoomAmount = (e.deltaY * timelineWidth) / 100;
-    let newStart = timelineStart - zoomAmount * mouseX;
-    newStart += e.deltaX * 0.25;
-    setTimelineStart(newStart);
-    setTimelineWidth(timelineWidth + zoomAmount);
+    if (timelineWidth < 1000000 || e.deltaY < 0) {
+      // max zoom to prevent overflow
+      const zoomAmount = (e.deltaY * timelineWidth) / 100;
+      let newStart = timelineStart - zoomAmount * mouseX;
+      newStart += (e.deltaX * timelineWidth) / 1000;
+      setTimelineStart(newStart);
+      setTimelineWidth(timelineWidth + zoomAmount);
+    }
   };
 
   const onMoveHandler = (e) => {
