@@ -7,6 +7,7 @@ export default function Timeline({ events, ...props }) {
 
   const [mouseX, setMouseX] = useState(0);
 
+  // render events into list
   const eventComps = events.map((ev, i) => {
     return (
       <TimelineEvent
@@ -18,6 +19,7 @@ export default function Timeline({ events, ...props }) {
     );
   });
 
+  // zoom and scroll
   const onWheelHandler = (e) => {
     if (timelineWidth < 1000000 || e.deltaY < 0) {
       // max zoom to prevent overflow
@@ -28,7 +30,8 @@ export default function Timeline({ events, ...props }) {
       setTimelineWidth(timelineWidth + zoomAmount);
     }
   };
-
+  
+  // store mouse x for zoom
   const onMoveHandler = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
