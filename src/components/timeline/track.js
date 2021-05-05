@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import TimelineEvent from "./timeline/event";
 
-export default function Timeline({ events, ...props }) {
-  const [timelineWidth, setTimelineWidth] = useState(500);
-  const [timelineStart, setTimelineStart] = useState(0);
-
-  const [mouseX, setMouseX] = useState(0);
-
+export default function Track({ events, timelineStart, timelineWidth, ...props }) {
   const eventComps = events.map((ev, i) => {
     return (
       <TimelineEvent

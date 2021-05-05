@@ -1,21 +1,30 @@
 import React, { useState } from "react";
-import TimelineEvent from "./timeline/event";
+import { useRxData } from 'rxdb-hooks';
 
-export default function Timeline({ events, ...props }) {
+import Track from './timeline/track'
+
+export default function Timeline({ id, ...props }) {
   const [timelineWidth, setTimelineWidth] = useState(500);
   const [timelineStart, setTimelineStart] = useState(0);
 
   const [mouseX, setMouseX] = useState(0);
 
+  const queryConstructor = collection =>
+    collection
+      .find()
+      .where('id')
+      .equals(id);
+
+    const { result: tracks, isFetching } = useRxData(
+        'tracks',
+        queryConstructor
+    );
+
+
   // render events into list
-  const eventComps = events.map((ev, i) => {
+  const trackComps = tracks.map((ev, i) => {
     return (
-      <TimelineEvent
-        event={ev}
-        key={i}
-        timelineWidth={timelineWidth}
-        timelineStart={timelineStart}
-      />
+      <Track />
     );
   });
 
@@ -41,11 +50,11 @@ export default function Timeline({ events, ...props }) {
 
   return (
     <div
-      className="bg-gray-100 flex-1 h-24 overflow-hidden"
+      className="bg-gray-100 flex-1 overflow-hidden"
       onWheel={onWheelHandler}
       onMouseMove={onMoveHandler}
     >
-      <div className="relative h-24">{eventComps}</div>
+      {trackComps}
     </div>
   );
 }
