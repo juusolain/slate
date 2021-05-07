@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useRxData } from 'rxdb-hooks';
+import { useRxCollection, useRxData, useRxDocument } from "rxdb-hooks";
+import { v4 as uuidv4 } from "uuid";
 
-import Track from './timeline/track'
+import Track from "./timeline/track";
 
 export default function Timeline({ id, ...props }) {
   const [timelineWidth, setTimelineWidth] = useState(500);
@@ -9,23 +10,21 @@ export default function Timeline({ id, ...props }) {
 
   const [mouseX, setMouseX] = useState(0);
 
-  const queryConstructor = collection =>
-    collection
-      .find()
-      .where('id')
-      .equals(id);
+  const trackQueryConstructor = (collection) =>
+    collection.find().where("timelineId").equals(id);
 
-    const { result: tracks, isFetching } = useRxData(
-        'tracks',
-        queryConstructor
-    );
+  const { result: timelineData } = useRxDocument("timelines", id);
 
+  const trackCollection = useRxCollection("tracks");
+
+  const { result: tracks, isFetching } = useRxData(
+    "tracks",
+    trackQueryConstructor
+  );
 
   // render events into list
-  const trackComps = tracks.map((ev, i) => {
-    return (
-      <Track />
-    );
+  const trackComps = tracks.map((track, i) => {
+    return <Track track={track} />;
   });
 
   // zoom and scroll
@@ -35,17 +34,30 @@ export default function Timeline({ id, ...props }) {
       const zoomAmount = (e.deltaY * timelineWidth) / 100;
       let newStart = timelineStart - zoomAmount * mouseX;
       newStart += (e.deltaX * timelineWidth) / 1000;
+      if (newStart < 0) {
+        newStart = 0;
+      }
       setTimelineStart(newStart);
       setTimelineWidth(timelineWidth + zoomAmount);
     }
   };
-  
+
   // store mouse x for zoom
   const onMoveHandler = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const xPercentage = x / rect.width;
     setMouseX(xPercentage);
+  };
+
+  const newTrack = (name) => {
+    const n = {
+      name: name,
+      timelineId: id,
+      id: uuidv4(),
+    };
+
+    trackCollection.upsert(n);
   };
 
   return (
