@@ -1,0 +1,19 @@
+{
+  "title": "Track schema",
+  "version": 0,
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "primary": true
+    },
+    "timelineId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "timelineId"],
+  "indexes": ["id", "timelineId"]
+}
