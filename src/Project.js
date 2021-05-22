@@ -1,27 +1,34 @@
-import initializeDB from "./database";
-import { Provider } from "rxdb-hooks";
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
-import Timeline from "components/timeline";
+import { v4 as uuidv4 } from "uuid";
+
+import Timeline from "./components/timeline";
+
+import dbContext from './ProjectRoot'
 
 function Project() {
-  const [db, setDb] = useState();
-
   const [currentTimeline, setCurrentTimeline] = useState();
 
-  // load DB
-  useEffect(() => {
-    const initDB = async () => {
-      const _db = await initializeDB();
-      setDb(_db);
-    };
-    initDB();
-  }, []);
+  const db = useContext(dbContext);
+
+  const createNewTimeline = () => {
+    const t = {
+        id: uuidv4(),
+        name: "Hi"
+    }
+    db.collection('timelines').upsert(t)
+    setCurrentTimeline(t.id)
+  }
 
   return (
-    <Provider db={db} idAttribute="id">
-      <Timeline id={currentTimeline}></Timeline>
-    </Provider>
+    <div>
+        <button onClick={createNewTimeline}>Create timeline</button>
+        {   
+            currentTimeline && 
+            <Timeline id={currentTimeline}></Timeline>
+        }
+    </div>
+
   );
 }
 
