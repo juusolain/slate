@@ -1,31 +1,37 @@
-import RxDB from "rxdb";
+import React from "react";
+
+import { createRxDatabase, addRxPlugin } from "rxdb";
+import idbAdapter from "pouchdb-adapter-idb";
+import memoryAdapter from "pouchdb-adapter-memory";
 
 import eventSchema from "./schema/event.json";
 import trackSchema from "./schema/track.json";
 import timelineSchema from "./schema/timeline.json";
 
+addRxPlugin(idbAdapter);
+addRxPlugin(memoryAdapter);
+
+// inits DB and returns collections
 export const initializeDB = async () => {
   // create RxDB instance
-  const db = await RxDB.create({
+  const db = await createRxDatabase({
     name: "slatedb",
     adapter: "idb",
   });
 
-  // add a collection to our db
-  await db.collection({
-    name: "timelines",
-    schema: timelineSchema,
+  const collections = await db.addCollections({
+    timelines: {
+      schema: timelineSchema,
+    },
+    tracks: {
+      schema: trackSchema,
+    },
+    events: {
+      schema: eventSchema,
+    },
   });
-
-  await db.collection({
-    name: "tracks",
-    schema: trackSchema,
-  });
-
-  await db.collection({
-    name: "events",
-    schema: eventSchema,
-  });
-
-  return db;
+  return { collections, db };
 };
+const dbContext = React.createContext();
+
+export { dbContext };

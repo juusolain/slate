@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRxCollection, useRxData, useRxDocument } from "rxdb-hooks";
 import { v4 as uuidv4 } from "uuid";
 
-import Track from "./timeline/track";
+import Track from "./track";
 
 export default function Timeline({ id, ...props }) {
   const [timelineWidth, setTimelineWidth] = useState(500);
@@ -62,7 +62,7 @@ export default function Timeline({ id, ...props }) {
 
   return (
     <div
-      className="bg-gray-100 flex-1 overflow-hidden"
+      className="bg-gray-100 flex-1 overflow-hidden min-h-screen"
       onWheel={onWheelHandler}
       onMouseMove={onMoveHandler}
     >

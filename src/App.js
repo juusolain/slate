@@ -1,10 +1,10 @@
-import ProjectRoot from './ProjectRoot';
-import './App.css';
+import ProjectRoot from "./ProjectRoot";
+import "./App.css";
 
 function App() {
   return (
     <div className="App font-sans">
-      <ProjectRoot></ProjectRoot>
+      <ProjectRoot />
     </div>
   );
 }
