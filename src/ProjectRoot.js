@@ -29,9 +29,9 @@ function ProjectRoot() {
   if (db) {
     console.log("Db is valid");
     return (
-      <Provider db={db.db}>
+      <dbContext.Provider value={db}>
         <Project />
-      </Provider>
+      </dbContext.Provider>
     );
   } else if (dbError) {
     return <p>Error while loading DB</p>;

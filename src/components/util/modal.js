@@ -7,7 +7,7 @@ export default function Modal({ onClickOut, ...props }) {
         if (e.target === e.currentTarget) onClickOut();
       }}
     >
-      <div className="m-auto w-3/5 bg-green-200 z-50 h-3/5 p-2 rounded">
+      <div className="m-auto w-3/5 bg-blue-200 z-50 h-3/5 p-2 rounded">
         {props.children}
       </div>
     </div>

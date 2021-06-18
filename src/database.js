@@ -32,6 +32,7 @@ export const initializeDB = async () => {
   });
   return { collections, db };
 };
+
 const dbContext = React.createContext();
 
 export { dbContext };

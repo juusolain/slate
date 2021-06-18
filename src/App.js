@@ -1,10 +1,9 @@
-import ProjectRoot from "./ProjectRoot";
-import "./App.css";
+import Editor from "./editor/editor.js";
 
 function App() {
   return (
     <div className="App font-sans">
-      <ProjectRoot />
+      <Editor className="h-screen" />
     </div>
   );
 }

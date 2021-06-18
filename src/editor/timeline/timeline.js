@@ -62,7 +62,7 @@ export default function Timeline({ id, ...props }) {
 
   return (
     <div
-      className="bg-gray-100 flex-1 overflow-hidden min-h-screen"
+      className="flex-1 overflow-hidden min-h-screen"
       onWheel={onWheelHandler}
       onMouseMove={onMoveHandler}
     >
