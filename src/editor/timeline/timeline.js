@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useRxCollection, useRxData, useRxDocument } from "rxdb-hooks";
 import { v4 as uuidv4 } from "uuid";
 
 import Track from "./track";
@@ -10,19 +9,8 @@ export default function Timeline({ id, ...props }) {
 
   const [mouseX, setMouseX] = useState(0);
 
-  const trackQueryConstructor = (collection) =>
-    collection.find().where("timelineId").equals(id);
-
-  const { result: timelineData } = useRxDocument("timelines", id);
-
-  const trackCollection = useRxCollection("tracks");
-
-  const { result: tracks, isFetching } = useRxData(
-    "tracks",
-    trackQueryConstructor
-  );
-
   // render events into list
+  
   const trackComps = tracks.map((track, i) => {
     return <Track track={track} />;
   });

@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { useRxCollection, useRxQuery } from "rxdb-hooks";
-
 import Timeline from "./editor/timeline/timeline";
 import Modal from "./components/util/modal";
 

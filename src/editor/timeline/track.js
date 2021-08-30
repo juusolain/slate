@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import TimelineEvent from "./event";
-import { useRxData } from "rxdb-hooks";
 
 export default function Track({
   track,
