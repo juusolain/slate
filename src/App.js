@@ -1,4 +1,4 @@
-import Editor from "./editor/editor.js";
+import Editor from "./editor/Editor.js";
 
 import database from "./database";
 import DatabaseProvider from "@nozbe/watermelondb/DatabaseProvider";

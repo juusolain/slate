@@ -7,6 +7,15 @@ module.exports = {
       ],
     },
   },
+  eslint: {
+    enable: false,
+    mode: "extends",
+    configure: {
+      parserOptions: {
+        parser: "@babel/eslint-parser",
+      },
+    },
+  },
   babel: {
     plugins: [
       ["@babel/plugin-proposal-decorators", { legacy: true }],

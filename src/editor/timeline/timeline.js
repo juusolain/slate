@@ -1,18 +1,35 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import Track from "./track";
+import withObservables from "@nozbe/with-observables";
+import { compose } from "recompose";
+import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
+import { Q } from "@nozbe/watermelondb";
 
-export default function Timeline({ id, ...props }) {
+import Track from "./Track";
+import { Box } from "@chakra-ui/react";
+
+function Timeline({ timeline, tracks }) {
+  console.log(timeline, tracks);
   const [timelineWidth, setTimelineWidth] = useState(500);
   const [timelineStart, setTimelineStart] = useState(0);
+
+  //const timelineWidth = 500;
+  //const mouseX = 0;
+  //const timelineStart = 0;
 
   const [mouseX, setMouseX] = useState(0);
 
   // render events into list
-  
   const trackComps = tracks.map((track, i) => {
-    return <Track track={track} />;
+    return (
+      <Track
+        key={track.id}
+        track={track}
+        timelineWidth={timelineWidth}
+        timelineStart={timelineStart}
+      />
+    );
   });
 
   // zoom and scroll
@@ -38,23 +55,27 @@ export default function Timeline({ id, ...props }) {
     setMouseX(xPercentage);
   };
 
-  const newTrack = (name) => {
-    const n = {
-      name: name,
-      timelineId: id,
-      id: uuidv4(),
-    };
-
-    trackCollection.upsert(n);
-  };
-
   return (
-    <div
-      className="flex-1 overflow-hidden min-h-screen"
+    <Box
+      flex="1"
+      overflow="hidden"
       onWheel={onWheelHandler}
       onMouseMove={onMoveHandler}
     >
       {trackComps}
-    </div>
+      {timelineWidth},{timelineStart}
+    </Box>
   );
 }
+
+const enhance = compose(
+  withDatabase,
+  withObservables(["timelineId"], ({ database, timelineId }) => ({
+    timeline: database.get("timelines").findAndObserve(timelineId),
+  })),
+  withObservables(["timeline"], ({ timeline }) => ({
+    tracks: timeline.tracks,
+  }))
+);
+
+export default enhance(Timeline);

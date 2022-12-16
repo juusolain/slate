@@ -7,11 +7,11 @@ export default class Event extends Model {
     timelines: { type: "belongs_to", key: "track_id" },
   };
 
-  @text("name") name;
-  @field("color") color;
-  @text("description") description;
-  @field("duration") duration;
-  @field("start_time") startTime;
+  @text("name") name; // eslint-disable-line
+  @field("color") color; // eslint-disable-line
+  @text("description") description; // eslint-disable-line
+  @field("duration") duration; // eslint-disable-line
+  @field("start_time") startTime; // eslint-disable-line
 
-  @relation("tracks", "track_id") track;
+  @relation("tracks", "track_id") track; // eslint-disable-line
 }

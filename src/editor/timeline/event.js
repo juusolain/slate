@@ -1,20 +1,34 @@
 import React from "react";
+import withObservables from "@nozbe/with-observables";
+import { Box } from "@chakra-ui/react";
 
-export default function TimelineEvent({
+function TimelineEvent({
   event: { name, color, description, duration, startTime },
   timelineWidth,
   timelineStart,
 }) {
   if (shoudBeVisible(startTime, duration, timelineStart, timelineWidth)) {
     return (
-      <div
-        className="absolute float-left h-full"
+      <Box
+        height="100%"
+        float="left"
+        position="relative"
+        resize="horizontal"
         style={{
           width: getWidth(duration, timelineWidth),
           left: getLeft(startTime, timelineWidth, timelineStart),
         }}
       >
-        <div
+        <Box
+          padding="2"
+          backgroundColor="teal.200"
+          height="100%"
+          borderRadius="1"
+          resize="horizontal"
+          onres
+          borderWidth="1"
+          overflow="hidden"
+          textOverflow="ellipsis"
           className="p-2 h-full border rounded border-transparent whitespace-nowrap overflow-hidden overflow-ellipsis"
           style={{
             backgroundColor: color,
@@ -22,8 +36,8 @@ export default function TimelineEvent({
         >
           <p className="text-white text-lg m-0">{name}</p>
           <p className="text-gray-200 m-0">{description}</p>
-        </div>
-      </div>
+        </Box>
+      </Box>
     );
   }
   return null;
@@ -46,3 +60,9 @@ function shoudBeVisible(startTime, duration, timelineStart, timelineWidth) {
     (end >= timelineEnd && startTime <= timelineStart)
   );
 }
+
+const enhance = withObservables(["event"], ({ event }) => ({
+  event,
+}));
+const EnchancedTimelineEvent = enhance(TimelineEvent);
+export default EnchancedTimelineEvent;
